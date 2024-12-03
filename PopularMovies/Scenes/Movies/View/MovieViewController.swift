@@ -21,6 +21,8 @@ class MovieViewController: UIViewController ,UISearchResultsUpdating{
         }
     }
 
+    private var viewModel = MovieViewModel()
+
     let searchController = UISearchController(searchResultsController: nil)
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -59,6 +61,12 @@ class MovieViewController: UIViewController ,UISearchResultsUpdating{
         moviesTableView.dataSource = self
 
     }
+    private func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -67,6 +75,13 @@ class MovieViewController: UIViewController ,UISearchResultsUpdating{
 
         setupTableView()
         filteredData = allData
+        viewModel.moviesDidChange = { [weak self] in
+            self?.moviesTableView.reloadData()
+        }
+        
+        viewModel.showError = { [weak self] errorMessage in
+            self?.showErrorAlert(message: errorMessage)
+        }
 
         // Do any additional setup after loading the view.
     }
@@ -85,13 +100,15 @@ class MovieViewController: UIViewController ,UISearchResultsUpdating{
 }
 extension MovieViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredData.count
+        return viewModel.getMovieCount()
 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = filteredData[indexPath.row]
+        if let movie = viewModel.getMovie(at: indexPath.row) {
+            cell.textLabel?.text = movie.title
+        }
         return cell
 
     }

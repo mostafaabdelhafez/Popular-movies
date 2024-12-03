@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D4A53BCA2CFF463C008B3A39 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = D4A53BC92CFF463C008B3A39 /* Moya */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		D4A53B452CFDE4F1008B3A39 /* PopularMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PopularMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4A53BCA2CFF463C008B3A39 /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				D4A53B472CFDE4F1008B3A39 /* PopularMovies */,
+				D4A53B912CFF452C008B3A39 /* Frameworks */,
 				D4A53B462CFDE4F1008B3A39 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,6 +62,13 @@
 				D4A53B452CFDE4F1008B3A39 /* PopularMovies.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D4A53B912CFF452C008B3A39 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -78,6 +91,7 @@
 			);
 			name = PopularMovies;
 			packageProductDependencies = (
+				D4A53BC92CFF463C008B3A39 /* Moya */,
 			);
 			productName = PopularMovies;
 			productReference = D4A53B452CFDE4F1008B3A39 /* PopularMovies.app */;
@@ -107,6 +121,9 @@
 			);
 			mainGroup = D4A53B3C2CFDE4F1008B3A39;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D4A53B772CFF1CBE008B3A39 /* XCRemoteSwiftPackageReference "Moya" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D4A53B462CFDE4F1008B3A39 /* Products */;
 			projectDirPath = "";
@@ -335,6 +352,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D4A53B772CFF1CBE008B3A39 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D4A53BC92CFF463C008B3A39 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D4A53B772CFF1CBE008B3A39 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D4A53B3D2CFDE4F1008B3A39 /* Project object */;
 }
