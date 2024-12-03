@@ -37,13 +37,16 @@ extension MovieAPI: TargetType {
     var task: Task {
         switch self {
         case .fetchPopularMovies(let page):
-            return .requestParameters(parameters: ["api_key": "YOUR_API_KEY", "page": page], encoding: URLEncoding.default)
+            return .requestParameters(parameters: ["language": "en-US", "page": page], encoding: URLEncoding.default)
         case .searchMovies(let query, let page):
             return .requestParameters(parameters: ["api_key": "YOUR_API_KEY", "query": query, "page": page], encoding: URLEncoding.default)
         }
     }
     
     var headers: [String: String]? {
-        return nil
+        return [
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3Mjc1Y2RkN2M1NzhiZTNkZjIwNjFiZDMyZDBhOWQzOCIsIm5iZiI6MTU2Mjg3MjY1Ni42NDUsInN1YiI6IjVkMjc4YjUwOWMyNGZjMDAxMGEzNTIzNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.l6RnC5CPWLYo94f1uxzJuqNuS6Ixiobp1yxXI_L3i5o",
+            "Accept": "application/json"
+        ]
     }
 }

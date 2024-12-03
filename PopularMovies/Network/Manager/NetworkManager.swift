@@ -22,6 +22,7 @@ extension NetworkManager {
         provider.request(endpoint) { result in
             switch result {
             case .success(let response):
+                
                 guard (200..<300).contains(response.statusCode) else {
                     completion(nil, NetworkError.invalidStatusCode(response.statusCode))
                     return

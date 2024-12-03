@@ -12,7 +12,8 @@ class MovieViewModel {
     var isLoading: ((Bool) -> Void)?
 
     private let movieService: MovieService
-    private var movies: [Movie] = []
+    private var popularMovies: [Movie] = []
+    private var searchResults: [Movie] = []
 
     init(movieService: MovieService = MovieService()) {
         self.movieService = movieService
@@ -24,24 +25,65 @@ class MovieViewModel {
             self?.isLoading?(false)
             
             if let error = error {
+                
                 self?.showError?(error.localizedDescription)
                 return
             }
             
             if let response = response {
-                self?.movies = response.results
+                
+                self?.popularMovies = response.results ?? []
                 self?.moviesDidChange?()  // Notify the ViewController to update the UI
             }
         }
     }
-    
-    func getMovieCount() -> Int {
-        return movies.count
+    func didRemoveSearch(){
+        self.resetToPopularMovies()
+    }
+    func searchMovies(query: String, page: Int) {
+        guard !query.isEmpty else {
+            // If search is empty, reset to popular movies
+            self.resetToPopularMovies()
+            return
+        }
+        
+        isLoading?(true)
+        
+        movieService.searchMovies(query: query, page: page) { [weak self] response, error in
+            self?.isLoading?(false)
+            
+            if let error = error {
+                self?.showError?(error.localizedDescription)
+                return
+            }
+            
+            if let response = response {
+                self?.searchResults = response.results ?? []
+                self?.moviesDidChange?()  // Notify ViewController to update UI
+            }
+        }
     }
     
+
+    private func resetToPopularMovies() {
+        self.searchResults.removeAll()
+        self.fetchPopularMovies(page: 1)
+    }
+
+    func getMovieCount() -> Int {
+        if !searchResults.isEmpty {
+            return searchResults.count
+        } else {
+            return popularMovies.count
+        }
+    }
+
     func getMovie(at index: Int) -> Movie? {
-        guard index >= 0 && index < movies.count else { return nil }
-        return movies[index]
+        if !searchResults.isEmpty {
+            return searchResults[safe: index]
+        } else {
+            return popularMovies[safe: index]
+        }
     }
 
 }

@@ -7,46 +7,35 @@
 
 import UIKit
 
-class MovieViewController: UIViewController ,UISearchResultsUpdating{
-    // Original data
-    let allData = ["Apple", "Banana", "Orange", "Strawberry", "Pineapple", "Mango", "Grape"]
+class MovieViewController: UIViewController ,UISearchResultsUpdating,UISearchBarDelegate{
     
-    // Filtered data based on search
-    var filteredData = [String]()
-
     @IBOutlet weak var moviesTableView: UITableView!{
         didSet{
             moviesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-
+            
         }
     }
-
+    
     private var viewModel = MovieViewModel()
-
+    
     let searchController = UISearchController(searchResultsController: nil)
     
     func updateSearchResults(for searchController: UISearchController) {
+        
         let searchText = searchController.searchBar.text ?? ""
         
-        if searchText.isEmpty {
-            // If the search text is empty, show the full list
-            filteredData = allData
-        } else {
-            // Filter the data based on the search text
-            filteredData = allData.filter { item in
-                return item.lowercased().contains(searchText.lowercased())
-            }
+        if !searchText.isEmpty {
+            viewModel.searchMovies(query: searchText, page: 1)
         }
-        
-        // Reload the table view to reflect changes
-        moviesTableView.reloadData()
+        else{
+            viewModel.didRemoveSearch()
+        }
     }
 
     func setupSearchBar(){
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Movies ..."
-        
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
     }
@@ -74,14 +63,15 @@ class MovieViewController: UIViewController ,UISearchResultsUpdating{
         setupSearchBar()
 
         setupTableView()
-        filteredData = allData
         viewModel.moviesDidChange = { [weak self] in
+            
             self?.moviesTableView.reloadData()
         }
         
         viewModel.showError = { [weak self] errorMessage in
             self?.showErrorAlert(message: errorMessage)
         }
+        viewModel.fetchPopularMovies(page: 1)
 
         // Do any additional setup after loading the view.
     }
@@ -107,6 +97,7 @@ extension MovieViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         if let movie = viewModel.getMovie(at: indexPath.row) {
+            
             cell.textLabel?.text = movie.title
         }
         return cell
