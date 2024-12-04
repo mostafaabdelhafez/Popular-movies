@@ -13,7 +13,7 @@ class HorizontalCollectionView: UIView {
     
     var collectionView: UICollectionView!
     
-    var movies = [Movie](){
+    var items = [CollectionViewItem](){
         didSet{
             collectionView.reloadData()
         }
@@ -62,12 +62,12 @@ class HorizontalCollectionView: UIView {
 extension HorizontalCollectionView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movies.count
+        return items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCollectionViewCell.identifier, for: indexPath) as! HorizontalCollectionViewCell
-        cell.configureUI(item: CollectionViewItem(image:movies[indexPath.item].posterPath ?? "", title: movies[indexPath.item].title ?? ""))
+        cell.configureUI(item: CollectionViewItem(image:items[indexPath.item].image, title: items[indexPath.item].title ))
         
         return cell
     }

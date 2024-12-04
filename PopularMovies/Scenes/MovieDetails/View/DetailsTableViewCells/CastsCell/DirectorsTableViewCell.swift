@@ -1,5 +1,5 @@
 //
-//  SimilarMoviesTableViewCell.swift
+//  DirectorsTableViewCell.swift
 //  PopularMovies
 //
 //  Created by jobzella on 12/4/24.
@@ -7,14 +7,12 @@
 
 import UIKit
 
-class SimilarMoviesTableViewCell: UITableViewCell {
-    static let identifier = "similar"
-    
-    var movies = [Movie](){
+class DirectorsTableViewCell: UITableViewCell {
+    static let identifier = "directors"
+    var directors = [MovieCrew](){
         didSet{
-            
-            collectionView.items = movies.compactMap { movie in
-                guard let title = movie.title, let image = movie.posterPath else {
+            collectionView.items = directors.compactMap { director in
+                guard let title = director.name, let image = director.profilePath else {
                     return nil
                 }
                 return CollectionViewItem(image: image, title: title)
@@ -35,9 +33,9 @@ class SimilarMoviesTableViewCell: UITableViewCell {
         ])
 
     }
+
     override func awakeFromNib() {
         super.awakeFromNib()
-
         setupCollectionView()
         // Initialization code
     }

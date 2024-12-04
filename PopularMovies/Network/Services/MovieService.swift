@@ -12,12 +12,18 @@ protocol MovieServiceProtocol {
     func fetchPopularMovies(page: Int, completion: @escaping (MovieResponse?, NetworkError?) -> Void)
     func searchMovies(query: String, page: Int, completion: @escaping (MovieResponse?, NetworkError?) -> Void)
     func fetchSimilarMovies(page: Int,id:Int, completion: @escaping (MovieResponse?, NetworkError?) -> Void)
-
     func movieDetails(id:Int, completion: @escaping (MovieDetails?, NetworkError?) -> Void)
+    func fetchCredits(page: Int,id:Int, completion: @escaping (MovieCastResponse?, NetworkError?) -> Void)
 
 }
 
 class MovieService:MovieServiceProtocol,NetworkManager{
+    func fetchCredits(page: Int, id: Int, completion: @escaping (MovieCastResponse?, NetworkError?) -> Void) {
+        let endpoint = MovieAPI.fetchCredits(page: 1, id: id)
+        fetchData(endpoint: endpoint, responseType: MovieCastResponse.self, completion: completion)
+
+    }
+    
     func fetchSimilarMovies(page: Int,id:Int, completion: @escaping (MovieResponse?, NetworkError?) -> Void) {
         let endpoint = MovieAPI.fetchSimilarMovies(page: 1, id: id)
         fetchData(endpoint: endpoint, responseType: MovieResponse.self, completion: completion)
