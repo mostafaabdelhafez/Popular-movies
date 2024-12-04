@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MovieViewController" customModule="PopularMovies" customModuleProvider="target">
             <connections>
+                <outlet property="indicator" destination="z82-Vs-xoQ" id="eK7-Ds-AO0"/>
                 <outlet property="moviesTableView" destination="I2f-hF-kmy" id="aUc-Uk-HFg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -19,6 +20,9 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="z82-Vs-xoQ">
+                    <rect key="frame" x="186.66666666666666" y="416" width="20" height="20"/>
+                </activityIndicatorView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="I2f-hF-kmy">
                     <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -29,6 +33,8 @@
             <constraints>
                 <constraint firstItem="I2f-hF-kmy" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="3s1-71-cl5"/>
                 <constraint firstItem="I2f-hF-kmy" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="TwC-ck-wEm"/>
+                <constraint firstItem="z82-Vs-xoQ" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Z01-gF-6hD"/>
+                <constraint firstItem="z82-Vs-xoQ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="eSO-8n-wjk"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="I2f-hF-kmy" secondAttribute="trailing" id="xRt-vF-J5M"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="I2f-hF-kmy" secondAttribute="bottom" id="zIA-IU-fqa"/>
             </constraints>

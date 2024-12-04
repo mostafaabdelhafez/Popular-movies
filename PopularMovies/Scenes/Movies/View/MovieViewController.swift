@@ -8,7 +8,8 @@
 import UIKit
 
 class MovieViewController: UIViewController ,UISearchResultsUpdating,UISearchBarDelegate{
-    
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
+
     @IBOutlet weak var moviesTableView: UITableView!{
         didSet{
             moviesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
@@ -75,6 +76,19 @@ class MovieViewController: UIViewController ,UISearchResultsUpdating,UISearchBar
         
         viewModel.showError = { [weak self] errorMessage in
             self?.showErrorAlert(message: errorMessage)
+        }
+        viewModel.isLoading = {[weak self] loading in
+            if loading{
+                self?.moviesTableView.isHidden = true
+                self?.indicator.isHidden = false
+                self?.indicator.startAnimating()
+            }
+            else{
+                self?.moviesTableView.isHidden = false
+                self?.indicator.isHidden = true
+                self?.indicator.stopAnimating()
+
+            }
         }
         viewModel.fetchPopularMovies(page: 1)
 
