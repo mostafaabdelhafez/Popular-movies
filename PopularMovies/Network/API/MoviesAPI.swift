@@ -11,6 +11,10 @@ import Moya
 enum MovieAPI {
     case fetchPopularMovies(page: Int)
     case searchMovies(query: String, page: Int)
+    case fetchMovieDetails(id: Int)
+    case fetchSimilarMovies(page: Int,id: Int)
+
+
 }
 
 extension MovieAPI: TargetType {
@@ -24,22 +28,30 @@ extension MovieAPI: TargetType {
             return "/movie/popular"
         case .searchMovies:
             return "/search/movie"
+        case .fetchMovieDetails(let id):
+            return "/movie/\(id)"
+        case .fetchSimilarMovies(_,let id):
+            return "/movie/\(id)/similar"
+
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .fetchPopularMovies, .searchMovies:
+        case .fetchPopularMovies, .searchMovies,.fetchMovieDetails,.fetchSimilarMovies:
             return .get
         }
     }
     
     var task: Task {
         switch self {
-        case .fetchPopularMovies(let page):
+        case .fetchPopularMovies(let page),.fetchSimilarMovies(let page, _):
             return .requestParameters(parameters: ["language": "en-US", "page": page], encoding: URLEncoding.default)
         case .searchMovies(let query, let page):
-            return .requestParameters(parameters: ["api_key": "YOUR_API_KEY", "query": query, "page": page], encoding: URLEncoding.default)
+            return .requestParameters(parameters: ["query": query, "page": page], encoding: URLEncoding.default)
+        case .fetchMovieDetails:
+            return .requestParameters(parameters: ["language": "en-US"], encoding: URLEncoding.default)
+
         }
     }
     

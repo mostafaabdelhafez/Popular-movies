@@ -32,6 +32,11 @@ class MovieViewController: UIViewController ,UISearchResultsUpdating,UISearchBar
         }
     }
 
+    func navigateToDetails(id:Int){
+        let detailsVC = MovieDetailsViewController(nibName: "MovieDetailsViewController", bundle: nil)
+        detailsVC.movieId = id
+        navigationController?.pushViewController(detailsVC, animated: true)
+    }
     func setupSearchBar(){
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -104,6 +109,7 @@ extension MovieViewController:UITableViewDelegate,UITableViewDataSource{
 
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigateToDetails(id: viewModel.getMovie(at: indexPath.row)!.id!)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
