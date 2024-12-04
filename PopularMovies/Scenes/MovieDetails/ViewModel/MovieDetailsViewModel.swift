@@ -79,14 +79,30 @@ class MovieDetailsViewModel {
         return getMovieCasts()?.crew!.filter({$0.knownForDepartment == "Directing"})
     }
     func getTopMovieActors()->[MovieCast]?{
-        return getMovieActors()?.sorted { ($0.popularity ?? 0) > ($1.popularity ?? 0) }
-            .prefix(5)
-            .map { $0 }
+        guard let actors = getMovieActors() else{return nil}
+        let uniquePeople = Array(Dictionary(grouping: actors, by: { $0.id }).values.compactMap { $0.first })
+
+        // Sort the actors list by popularity in descending order
+        let sortedPeople = uniquePeople.sorted { $0.popularity! > $1.popularity! }
+
+        // Get the top 5 actors
+        let topActors = Array(sortedPeople.prefix(5))
+
+        return topActors
     }
     func getTopMovieDirectors()->[MovieCrew]?{
-        return getMovieDirectors()?.sorted { ($0.popularity ?? 0) > ($1.popularity ?? 0) }  // Sort by popularity in descending order
-            .prefix(5)  // Take the top 5 from the sorted list
-            .map { $0 }
+        guard let directors = getMovieDirectors() else{return nil}
+
+        let uniqueDirectors = Array(Dictionary(grouping: directors, by: { $0.id }).values.compactMap { $0.first })
+
+        // Sort the directors list by popularity in descending order
+        let sortedDirectors = uniqueDirectors.sorted { $0.popularity! > $1.popularity! }
+
+        // Get the top 5 actors
+        let topDirectors = Array(sortedDirectors.prefix(5))
+
+        return topDirectors
+
     }
     
 
