@@ -8,8 +8,11 @@
 import UIKit
 
 class MovieDetailsViewController: UIViewController {
+    
     var movieId:Int!
     let sectionTitles = ["Movie Details","Similar Movies","Casts"]
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
+
     @IBOutlet weak var movieDetailsTableView: UITableView!{
         didSet{
 
@@ -54,6 +57,19 @@ class MovieDetailsViewController: UIViewController {
         viewModel.movieCastsDidChange = { [weak self] in
             
             self?.movieDetailsTableView.reloadData()
+        }
+        viewModel.isLoading = {[weak self] loading in
+            if loading{
+                self?.movieDetailsTableView.isHidden = true
+                self?.indicator.isHidden = false
+                self?.indicator.startAnimating()
+            }
+            else{
+                self?.movieDetailsTableView.isHidden = false
+                self?.indicator.isHidden = true
+                self?.indicator.stopAnimating()
+
+            }
         }
 
 

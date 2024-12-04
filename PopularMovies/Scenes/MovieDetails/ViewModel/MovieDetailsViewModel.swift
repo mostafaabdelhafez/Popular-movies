@@ -51,11 +51,11 @@ class MovieDetailsViewModel {
     }
     func fetchMovieCasts(id: Int) {
         
-        movieService.fetchCredits(page: 1, id: id, completion: { response, error in
-            
+        movieService.fetchCredits(page: 1, id: id, completion: { [weak self]response, error in
+            self?.isLoading?(false)
             if let response = response{
-                self.moviecasts = response
-                self.movieCastsDidChange?()
+                self?.moviecasts = response
+                self?.movieCastsDidChange?()
             }
             
         })
